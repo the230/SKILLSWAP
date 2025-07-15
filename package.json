@@ -8,7 +8,7 @@
   "build": "vite build && esbuild server/index.ts --platform=node --bundle --format=esm --outfile=dist/index.js --external:express --external:@babel/preset-typescript --external:lightningcss",
   "start": "cross-env NODE_ENV=production node dist/index.js",
   "db:push": "drizzle-kit push"
-},
+  },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
     "@jridgewell/trace-mapping": "^0.3.25",
