@@ -127,7 +127,17 @@ export class MemStorage implements IStorage {
   async createUser(userData: InsertUser): Promise<User> {
     const id = this.userIdCounter++;
     const createdAt = new Date();
-    const user: User = { id, ...userData, createdAt };
+    const user: User = {
+    id,
+    name: userData.name,
+    username: userData.username,
+    password: userData.password,
+    email: userData.email,
+    bio: userData.bio ?? null,
+    location: userData.location ?? null,
+    avatar: userData.avatar ?? null,
+    createdAt, // or createdAt ?? null if your type allows null
+  };
     this.users.set(id, user);
     return user;
   }
@@ -288,20 +298,21 @@ export class MemStorage implements IStorage {
     return this.messages.get(id);
   }
   
-  async getMessagesByExchangeId(exchangeId: number): Promise<Message[]> {
-    return Array.from(this.messages.values())
-      .filter(message => message.exchangeId === exchangeId)
-      .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
-  }
-  
-  async getMessagesBetweenUsers(senderId: number, receiverId: number): Promise<Message[]> {
-    return Array.from(this.messages.values())
-      .filter(message => 
-        (message.senderId === senderId && message.receiverId === receiverId) ||
-        (message.senderId === receiverId && message.receiverId === senderId)
-      )
-      .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
-  }
+ async getMessagesByExchangeId(exchangeId: number): Promise<Message[]> {
+  return Array.from(this.messages.values())
+    .filter(message => message.exchangeId === exchangeId)
+    .sort((a, b) => (a.createdAt?.getTime() ?? 0) - (b.createdAt?.getTime() ?? 0));
+}
+
+async getMessagesBetweenUsers(senderId: number, receiverId: number): Promise<Message[]> {
+  return Array.from(this.messages.values())
+    .filter(message => 
+      (message.senderId === senderId && message.receiverId === receiverId) ||
+      (message.senderId === receiverId && message.receiverId === senderId)
+    )
+    .sort((a, b) => (a.createdAt?.getTime() ?? 0) - (b.createdAt?.getTime() ?? 0));
+}
+
   
   async getUnreadMessagesByUserId(userId: number): Promise<Message[]> {
     return Array.from(this.messages.values())
@@ -311,7 +322,15 @@ export class MemStorage implements IStorage {
   async createMessage(messageData: InsertMessage): Promise<Message> {
     const id = this.messageIdCounter++;
     const createdAt = new Date();
-    const message: Message = { id, ...messageData, read: false, createdAt };
+    const message: Message = {
+    id,
+    senderId: messageData.senderId,
+    receiverId: messageData.receiverId,
+    exchangeId: messageData.exchangeId ?? null,
+    content: messageData.content,
+    read: false,
+    createdAt,
+  };
     this.messages.set(id, message);
     return message;
   }
