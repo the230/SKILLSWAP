@@ -3,15 +3,14 @@
   "version": "1.0.0",
   "type": "module",
   "license": "MIT",
-
-"scripts": {
-  "dev": "cross-env NODE_ENV=development tsx server/index.ts",
-  "build": "vite build && esbuild server/index.ts --platform=node --bundle --format=esm --outfile=dist/index.js --external:@babel/preset-typescript --external:lightningcss",
-  "start": "cross-env NODE_ENV=production node dist/index.js",
-  "db:push": "drizzle-kit push"
-},
-
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development tsx server/index.ts",
+    "build": "vite build && esbuild server/index.ts --platform=node --bundle --format=esm --outfile=dist/index.js --external:@babel/preset-typescript --external:lightningcss",
+    "start": "cross-env NODE_ENV=production node dist/index.js",
+    "db:push": "drizzle-kit push"
+  },
   "dependencies": {
+    "@babel/preset-typescript": "^7.27.1",
     "@hookform/resolvers": "^3.10.0",
     "@jridgewell/trace-mapping": "^0.3.25",
     "@neondatabase/serverless": "^0.10.4",
@@ -58,6 +57,7 @@
     "express-session": "^1.18.1",
     "framer-motion": "^11.13.1",
     "input-otp": "^1.4.2",
+    "lightningcss": "^1.30.1",
     "lucide-react": "^0.453.0",
     "memorystore": "^1.6.7",
     "mongoose": "^8.16.3",
