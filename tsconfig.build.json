@@ -2,13 +2,18 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "server",
+    "rootDir": ".",                     // 👈 include both server and shared
+    "baseUrl": ".",                     // 👈 enable path aliasing
+    "paths": {
+      "@shared/*": ["shared/*"]         // 👈 use correct alias
+    },
     "module": "ESNext",
     "target": "ES2020",
     "moduleResolution": "Node",
     "esModuleInterop": true,
     "strict": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "skipLibCheck": true
   },
-  "include": ["server"]
+  "include": ["server", "shared"]       // 👈 include both folders
 }
